@@ -59,7 +59,7 @@ echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-安装python相关开发工具：
+安装Python相关开发工具：
 
 ```bash
 sudo apt install -y \
@@ -78,7 +78,7 @@ ros2 topic list
 
 如果能正常输出，则表示安装成功。
 
-## 2. 安装并测试OpenArm
+## 2. 下载并编译OpenArm机器人相关代码
 
 在对机器人进行仿真和开发之前，我们要先构建OpenArm机器人。`openarm_description`用于实现OpenArm机器人的构建。
 
@@ -170,9 +170,11 @@ source ~/ros2_ws/install/setup.bash
 
 > 操作不当可能导致严重伤害或设备损坏，永远把**安全放在首位**！！！
 
-## 3. 仿真
+## 3. OpenArm机器人仿真
 
-编译完成之后，测试一下仿真能否正常运行，启动v2.0机器人仿真：
+编译完成之后，测试一下仿真能否正常运行，下列指令运行其中一条就行。
+
+启动v2.0机器人仿真：
 
 ```bash
 ros2 launch openarm_bringup openarm.bimanual.launch.py arm_type:=v2.0
@@ -192,7 +194,7 @@ ros2 launch openarm_bringup openarm.bimanual.launch.py arm_type:=v2.0 use_fake_h
 
 下面对指令进行说明：
 
-`openarm_bringup`：提供与ROS2控制框架集成的启动文件。该软件包提供启动文件和配置，用于启动硬件接口、加载控制器并将实体机械臂连接到ROS2生态系统。运行之后，你可以使用标准ROS2控制工具和接口来指挥机械臂并接收反馈。
+`openarm_bringup`：提供与ROS2控制框架集成的启动文件。该软件包提供启动文件和配置，用于启动硬件接口、加载控制器并将实体机械臂连接到ROS2生态系统。启动之后，你可以使用标准ROS2控制工具和接口来指挥机械臂并接收反馈。
 
 `openarm.bimanual.launch.py`：配置双臂相关参数。
 
@@ -233,7 +235,7 @@ ros2 action list
 
 各个`action`及其说明如下：
 
-| **Topic** | **Type** | **Description** |
+| **Action** | **Type** | **Description** |
 | --- | --- | --- |
 | /left_joint_trajectory_controller/follow_joint_trajectory | control_msgs/action/FollowJointTrajectory | 左臂执行轨迹 |
 | /right_joint_trajectory_controller/follow_joint_trajectory | control_msgs/action/FollowJointTrajectory | 右臂执行轨迹 |
@@ -278,7 +280,7 @@ ros2 launch openarm_bimanual_moveit_config demo.launch.py arm_type:=v2.0 use_fak
 
 **出于安全考虑，默认增益设置为较低数值**。这会导致机械臂在部分场景下无法到达大角度位置，可通过编辑下述配置文件并重新编译的方式调整增益。
 
-对于v2.0版本，编辑`openarm_description`下的`control_gains.yaml`：
+对于v2.0版本，编辑如下文件：
 
 ```
 ~/ros2_ws/src/openarm_description/assets/robot/openarm_v2.0/config/arm/control/control_gains.yaml
